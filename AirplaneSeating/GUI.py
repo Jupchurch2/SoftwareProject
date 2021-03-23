@@ -1,10 +1,14 @@
 from tkinter import *
 
-root = Tk()
+managerWindow = Tk()
 login = Toplevel()
+passengerWindow = Toplevel()
 
-root.geometry('650x400')
-root.title('Seating App')
+passengerWindow.geometry('650x400')
+passengerWindow.title('Guest View')
+
+managerWindow.geometry('650x400')
+managerWindow.title('Manager View')
 
 login.geometry('325x200')
 login.title('Login')
@@ -16,19 +20,27 @@ usernameBox.pack()
 
 def quitApp():
     login.destroy()
-    root.destroy()
+    managerWindow.destroy()
     sys.exit()
 
 def loginButton():
-    loginLabel = Label(root)
+    usernameText = Label(login, text=" ")
     if usernameBox.get() == 'Manager':
-        root.deiconify()
+        managerWindow.deiconify()
         login.withdraw()
+    elif usernameBox.get() == 'Guest' or 'guest':
+        passengerWindow.deiconify()
+        login.withdraw()
+    else:
+        usernameText.config(text='Invalid username', fg='red')
+        usernameText.pack()
+    usernameBox.delete(0, END)
 
 
 def logout():
     login.deiconify()
-    root.withdraw()
+    passengerWindow.withdraw()
+    managerWindow.withdraw()
 
 
 button = Button(login, text="Login", padx=20, pady=10, command=lambda: loginButton())
@@ -37,8 +49,13 @@ button.pack()
 quitButton = Button(login, text='Exit', command=lambda: quitApp())
 quitButton.pack()
 
-logoutButton = Button(root, text='Log Out', command=lambda: logout())
+logoutButton = Button(managerWindow, text='Log Out', command=lambda: logout())
 logoutButton.pack()
+
+logoutButton2 = Button(passengerWindow, text='Log Out', command=lambda: logout())
+logoutButton2.pack()
 # Creating an event loop
-root.withdraw()
-root.mainloop()
+
+managerWindow.withdraw()
+passengerWindow.withdraw()
+managerWindow.mainloop()
