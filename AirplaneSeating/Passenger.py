@@ -23,4 +23,4 @@ class Passenger:
     def getRating(self):
         return self.rating
 
-    # Write specific method for each method
+    # Write specific method for each category
