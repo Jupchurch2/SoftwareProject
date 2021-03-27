@@ -29,5 +29,10 @@ class Seat:
         return self.businessSeat
 
 
-class Airplane:
-    pass
+# class Airplane:
+    
+    # def __init__(self, passengerList: list, seatList: list)
+        # self.passengerList
+    
+    # def seatingAlgorithm(self, Passenger):
+        
