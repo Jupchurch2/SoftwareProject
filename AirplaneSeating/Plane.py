@@ -3,9 +3,9 @@ import Passenger
 
 
 class Seat:
-    def __init__(self, POS: str, seatNumber: int, isTaken: bool = False) -> None:
+    def __init__(self, POS: str, seatNumber: int, isOpen: bool = True) -> None:
         self.POS = POS
-        self.isTaken = isTaken
+        self.isOpen = isOpen
         self.seatNumber = seatNumber
         self.passenger = None
         self.businessSeat = False
@@ -17,10 +17,10 @@ class Seat:
         return self.POS
 
     def checkSeat(self) -> Optional[Passenger]:
-        if self.isTaken:
-            return self.passenger
+        if self.isOpen:
+            return None
         else:
-            return False
+            return self.passenger
 
     def checkNumber(self):
         return self.seatNumber
