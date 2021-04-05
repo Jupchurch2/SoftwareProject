@@ -6,11 +6,14 @@
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    print(f"Hi, {name:03}")
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    for i in range(1, 121):
+        file = open(f'_Tickets/ticket {i:03}; Last Name', "w")
+        file.write("information")
+        file.close()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
