@@ -3,20 +3,25 @@ import Passenger
 
 
 class Seat:
-    def __init__(self, POS: str, seatNumber: int, isOpen: bool = True) -> None:
-        self.POS = POS
+    def __init__(self, seatNumber: int, isOpen: bool = True) -> None:
         self.isOpen = isOpen
         self.seatNumber = seatNumber
         self.passenger = None
-        self.businessSeat = False
 
         if self.seatNumber >= 12:
             self.businessSeat = True
 
     def checkPOS(self):
         return self.POS
-
-    def checkSeat(self) -> Optional[Passenger]:
+    
+    def isAvailable(self):
+        return self.isOpen
+    
+    def addPassenger(self, Passenger):
+        self.passenger = Passenger
+        self.isOpen = False
+        
+    def checkPassengerInSeat(self) -> Optional[Passenger]:
         if self.isOpen:
             return None
         else:
@@ -25,14 +30,5 @@ class Seat:
     def checkNumber(self):
         return self.seatNumber
 
-    def isBusiness(self):
-        return self.businessSeat
 
-
-# class Airplane:
-    
-    # def __init__(self, passengerList: list, seatList: list)
-        # self.passengerList
-    
-    # def seatingAlgorithm(self, Passenger):
         

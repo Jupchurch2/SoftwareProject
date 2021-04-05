@@ -1,9 +1,10 @@
 class Passenger:
-    def __init__(self, first: str, last: str, category: str) -> None:
+    def __init__(self, first: str, last: str, category: str, preference = int) -> None:
         self.first = first
         self.last = last
         self.category = category
         self.rating = 0
+        self.preference = preference
 
     def getLast(self):
         return self.last
@@ -13,6 +14,9 @@ class Passenger:
 
     def getCat(self):
         return self.category
+    
+    def getPref(self):
+        return self.preference
 
     def __str__(self):
         return f"{self.first} {self.last}"
