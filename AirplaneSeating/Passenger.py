@@ -1,5 +1,5 @@
 class Passenger:
-    def __init__(self, first: str, last: str, category: str, preference = int) -> None:
+    def __init__(self, first: str, last: str, category: str, preference: int) -> None:
         self.first = first
         self.last = last
         self.category = category

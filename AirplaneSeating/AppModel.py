@@ -72,7 +72,8 @@ class AppModel:
       seatList[availableSeatOne].passenger = passenger
       seatList[availableSeatTwo].passenger = passengerTwo
          
-
+   def seatingAlgorithmFamily(self, passenger: Passenger):
+      pass
 
 
       
