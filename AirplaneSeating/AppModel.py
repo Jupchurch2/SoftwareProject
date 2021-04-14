@@ -70,6 +70,7 @@ class AppModel:
             self.seatList[i+1].passenger = passengerTwo
             return i, i+1
 
+<<<<<<< HEAD
       self.seatList[availableSeatOne].passenger = passenger
       self.seatList[availableSeatTwo].passenger = passengerTwo
       return availableSeatOne, availableSeatTwo
@@ -112,6 +113,13 @@ class AppModel:
          self.seatList[availableSeatTwo].passenger = passTwo
          self.seatList[availableSeatThree].passenger = passThree
          return availableSeatOne, availableSeatTwo, availableSeatThree
+=======
+      seatList[availableSeatOne].passenger = passenger
+      seatList[availableSeatTwo].passenger = passengerTwo
+         
+   def seatingAlgorithmFamily(self, passenger: Passenger):
+      pass
+>>>>>>> 823eb727a19d8a46187fca06a4cf1f568e58df1a
 
       def familyFour(self, passOne: Passenger, passTwo: Passenger, passThree: Passenger, passFour: Passenger):
          availableSeatOne = -1
