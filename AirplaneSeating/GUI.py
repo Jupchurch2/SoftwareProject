@@ -166,6 +166,7 @@ def bookBusinessTicket():
     else:
         messagebox.showwarning(title='Your Name', message='Please enter your first and last name.')
 
+
 def bookTouristTicket():
     fullName1 = touristName1.get()
     fullName2 = touristName2.get()
@@ -174,21 +175,26 @@ def bookTouristTicket():
         first2, last2 = fullName2.split(' ')
         pref1 = int(touristPref1.get())
         pref2 = int(touristPref2.get())
-        touristTicket.withdraw()
-        passenger1 = Passenger(first1, last1, 'Tourist', pref1)
-        passenger2 = Passenger(first2, last2, 'Tourist', pref2)
+        if (pref1 == pref2) and (pref1 != 0 and pref2 != 0):
+            messagebox.showwarning(title='Seat', message='You must choose two different seats.')
+        elif (pref1 > 12 and pref2 > 12) or (pref1 == 0 and pref2 == 0):
+            touristTicket.withdraw()
+            passenger1 = Passenger(first1, last1, 'Tourist', pref1)
+            passenger2 = Passenger(first2, last2, 'Tourist', pref2)
 
-        touristSeat1, touristSeat2 = app.seatingAlgorithmTourist(passenger1, passenger2)
+            touristSeat1, touristSeat2 = app.seatingAlgorithmTourist(passenger1, passenger2)
 
-        passengerViewButtons[touristSeat1].config(bg='red')
-        passengerViewButtons[touristSeat2].config(bg='red')
-        managerViewButtons[touristSeat1].config(bg='red')
-        managerViewButtons[touristSeat2].config(bg='red')
+            passengerViewButtons[touristSeat1].config(bg='red')
+            passengerViewButtons[touristSeat2].config(bg='red')
+            managerViewButtons[touristSeat1].config(bg='red')
+            managerViewButtons[touristSeat2].config(bg='red')
 
-        messagebox.showinfo(title='Seats', message=f'Your seats are {touristSeat1 + 1} & {touristSeat2 + 1}')
-
+            messagebox.showinfo(title='Seats', message=f'Your seats are {touristSeat1 + 1} & {touristSeat2 + 1}')
+        else:
+            messagebox.showwarning(title='Invalid Seating', message='Seats 1-12 are reserved for Business class.')
     else:
         messagebox.showwarning(title='Your Name', message='Please enter both of your first and last names.')
+
 
 def bookFamilyTicket():
     fullname1 = familyName1.get()
@@ -196,6 +202,7 @@ def bookFamilyTicket():
     fullname3 = familyName3.get()
     fullname4 = familyName4.get()
     fullname5 = familyName5.get()
+
     if len(fullname1) > 1 and len(fullname2) > 1 and len(fullname3) > 1:
         first1, last1 = fullname1.split(' ')
         first2, last2 = fullname2.split(' ')
@@ -213,7 +220,16 @@ def bookFamilyTicket():
             else:
                 pass
         else:
-            pass
+            seat3,seat2,seat1 = app.familyThree(passenger1, passenger2, passenger3)
+
+            passengerViewButtons[seat1].config(bg='red')
+            passengerViewButtons[seat2].config(bg='red')
+            passengerViewButtons[seat3].config(bg='red')
+            managerViewButtons[seat1].config(bg='red')
+            managerViewButtons[seat2].config(bg='red')
+            managerViewButtons[seat3].config(bg='red')
+
+            messagebox.showinfo(title='Seats', message=f'Your seats are {seat1 + 1}, {seat2 + 1}, & {seat3 + 1}')
 
     else:
         messagebox.showwarning(title='Your Name', message='Please enter all of your first and last names.')
