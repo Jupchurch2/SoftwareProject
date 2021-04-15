@@ -21,7 +21,7 @@ class Seat:
         self.passenger = Passenger
         self.isOpen = False
         
-    def checkPassengerInSeat(self) -> Optional[Passenger]:
+    def checkPassengerInSeat(self):
         if self.isOpen:
             return None
         else:

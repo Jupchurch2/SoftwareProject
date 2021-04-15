@@ -2,9 +2,9 @@ import sys
 import unittest
 
 sys.path.insert(0, '..')
-from AppModel import *
-from Plane import *
-from Passenger import *
+from AppModel import AppModel
+from Plane import Seat
+from Passenger import Passenger
 
 a = 'a'
 b = 'b'
@@ -37,7 +37,7 @@ def createFamily(size: int):
         d.category = "Family"
         return a, b, c, d
     else:
-        a, b, c, d, e = 5 * Passenger()
+        a, b, c, d, e = 5 * Passenger('a', 'b', 'c', 0)
         a.category = "Family"
         b.category = "Family"
         c.category = "Family"
@@ -52,7 +52,7 @@ class seatingTest(unittest.TestCase):
         a = AppModel()
         x = createBusiness()
         b = a.seatBusiness(x)
-
+        self.assertEqual(0, b)
 
 
 
