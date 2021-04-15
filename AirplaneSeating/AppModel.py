@@ -6,24 +6,28 @@ class AppModel:
    
    def __init__(self):
       self.seatList = []
-      for i in range(120):
-         self.seatList[i] = Seat(i + 1, True)
+      for i in range(0, 120):
+         self.seatList.append(Seat(i + 1, True))
       self.passengerList = []
 
    def seatBusiness(self, passenger: Passenger):
       passengerPref = passenger.getPref() - 1
-      if self.seatList[passengerPref].isAvailable():
+      if self.seatList[passengerPref].isAvailable() and passengerPref != -1:
          self.seatList[passengerPref].passenger = passenger
-      
+         self.seatList[passengerPref].isOpen = False
+         return passengerPref
       else:
          for i in range(0, 12):
             if self.seatList[i].isAvailable():
                self.seatList[i].passenger = passenger
-               break
+               self.seatList[i].isOpen = False
+               return i
             elif i == 11:
                for j in range(12, 120):
                   if self.seatList[j].isAvailable():
                      self.seatList[j].passenger = passenger
+                     self.seatList[j].isOpen = False
+                     return j
                   elif j == 120:
                      raiseError("Passenger can not be seated")
                      break
@@ -47,7 +51,7 @@ class AppModel:
             raiseError("Neither passenger can be seated due to spatial limitations.")
             return -1, -1
 
-      if self.seatListseatList[passengerPref].isAvailable() and self.seatList[prefTwo].isAvailable():
+      if self.seatList[passengerPref].isAvailable() and self.seatList[prefTwo].isAvailable():
          self.seatList[passengerPref].passenger = passenger
          self.seatList[prefTwo].passenger = passengerTwo
          return passengerPref, prefTwo
