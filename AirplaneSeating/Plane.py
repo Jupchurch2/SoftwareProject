@@ -8,11 +8,8 @@ class Seat:
         self.seatNumber = seatNumber
         self.passenger = None
 
-        if self.seatNumber >= 12:
+        if self.seatNumber <= 12:
             self.businessSeat = True
-
-    def checkPOS(self):
-        return self.POS
     
     def isAvailable(self):
         return self.isOpen
@@ -29,6 +26,3 @@ class Seat:
 
     def checkNumber(self):
         return self.seatNumber
-
-
-        
