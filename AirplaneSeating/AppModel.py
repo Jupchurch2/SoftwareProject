@@ -91,6 +91,7 @@ class AppModel:
         self.seatList[availableSeatTwo].isOpen = False
         return availableSeatOne, availableSeatTwo
 
+    # Needs to set open seats to false for families of 3,4 and 5
     def familyThree(self, passOne: Passenger, passTwo: Passenger, passThree: Passenger):
         availableSeatOne = -1
         availableSeatTwo = -1
@@ -228,8 +229,7 @@ class AppModel:
                 raiseError("Five passengers can not be seated due to spatial limitations.")
                 return -1, -1, -1, -1, -1
         for i in range(14, 120, 6):
-            if self.seatList[i - 1].isAvailable() and self.seatList[i].isAvailable() and self.seatList[
-                i + 1].isAvailable() and self.seatList[i + 2].isAvailable():
+            if self.seatList[i - 1].isAvailable() and self.seatList[i].isAvailable() and self.seatList[i + 1].isAvailable() and self.seatList[i + 2].isAvailable():
                 if self.seatList[i - 2].isAvailable():
                     self.seatList[i - 2].passenger = passOne
                     self.seatList[i - 1].passenger = passTwo
