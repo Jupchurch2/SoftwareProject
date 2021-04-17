@@ -238,7 +238,7 @@ def bookFamilyTicket():
                 first5, last5 = fullname5.split(' ')
                 passenger5 = Passenger(first5, last5, 'Family', 0)
 
-                seat5, seat4, seat3, seat2, seat1 = app.familyFive(passenger1, passenger2, passenger3, passenger4, passenger5)
+                seat1, seat2, seat3, seat4, seat5 = app.familyFive(passenger1, passenger2, passenger3, passenger4, passenger5)
                 passengerList.append(passenger1)
                 passengerList.append(passenger2)
                 passengerList.append(passenger3)
@@ -250,8 +250,22 @@ def bookFamilyTicket():
                 seatList.append(seat4)
                 seatList.append(seat5)
                 generateTickets(passengerList, seatList)
+
+                passengerViewButtons[seat1].config(bg='red')
+                passengerViewButtons[seat2].config(bg='red')
+                passengerViewButtons[seat3].config(bg='red')
+                passengerViewButtons[seat4].config(bg='red')
+                passengerViewButtons[seat5].config(bg='red')
+                managerViewButtons[seat1].config(bg='red')
+                managerViewButtons[seat2].config(bg='red')
+                managerViewButtons[seat3].config(bg='red')
+                managerViewButtons[seat4].config(bg='red')
+                managerViewButtons[seat5].config(bg='red')
+
+                messagebox.showinfo(title='Seats',
+                                    message=f'Your seats are {seat1 + 1}, {seat2 + 1}, {seat3 + 1}, {seat4 + 1}, & {seat5 + 1}')
             else:
-                seat4, seat3, seat2, seat1 = app.familyFour(passenger1, passenger2, passenger3, passenger4)
+                seat3, seat2, seat1, seat4 = app.familyFour(passenger1, passenger2, passenger3, passenger4)
                 passengerList.append(passenger1)
                 passengerList.append(passenger2)
                 passengerList.append(passenger3)
@@ -261,6 +275,17 @@ def bookFamilyTicket():
                 seatList.append(seat3)
                 seatList.append(seat4)
                 generateTickets(passengerList, seatList)
+
+                passengerViewButtons[seat1].config(bg='red')
+                passengerViewButtons[seat2].config(bg='red')
+                passengerViewButtons[seat3].config(bg='red')
+                passengerViewButtons[seat4].config(bg='red')
+                managerViewButtons[seat1].config(bg='red')
+                managerViewButtons[seat2].config(bg='red')
+                managerViewButtons[seat3].config(bg='red')
+                managerViewButtons[seat4].config(bg='red')
+
+                messagebox.showinfo(title='Seats', message=f'Your seats are {seat1 + 1}, {seat2 + 1}, {seat3 + 1}, & {seat4 + 1}')
         else:
             seat3, seat2, seat1 = app.familyThree(passenger1, passenger2, passenger3)
 
@@ -299,6 +324,19 @@ def generateTickets(passengers: list, seats: list):
         ticket = open(f'_Tickets/ Seat {seats[i]:03}, {passengers[i].getLast()}', "w")
         ticket.write(f"Seat No. {seats[i]} \nName: {passengers[i]} \nFlight Date: 19 Apr. 2021 \nFlight: 330")
         ticket.close()
+
+def createReport():
+    ratingList = app.generateReport()
+    ratingString = ""
+    ratingTotal = 0
+    for i in range(len(ratingList)):
+        ratingString += f"\n{ratingList[i]} rated {ratingList[i].getRating()}"
+        ratingTotal += ratingList[i].getRating()
+    ratingString += f"\n\nAll ratings totaled to {ratingTotal} overall!"
+    messagebox.showinfo(title='Passenger Rating Report', message=f'{ratingString}')
+    managerReport = open("flightReport", "w")
+    managerReport.write(f'{ratingString}')
+    managerReport.close()
 
 def quitApp():
     login.destroy()
@@ -381,7 +419,9 @@ ticketButton.place(x=5, y=770)
 chooseCat = Button(categoryScreen, text='Select Category', bg='blue', fg='white', command=lambda: chooseCategory())
 chooseCat.place(x=400, y=400)
 # -----------------------------------------------------------------------------------------------------------------
-reportButton = Button(managerWindow, text='Print Report', bg='blue', fg='white').place(x=5, y=770)
+
+
+reportButton = Button(managerWindow, text='Print Report', bg='blue', fg='white', command=lambda: createReport()).place(x=5, y=770)
 
 button = Button(login, text="Passenger", height=mbHEIGHT, width=mbWIDTH, command=lambda: passengerLogin()).place(relx=.363, rely=.2)
 

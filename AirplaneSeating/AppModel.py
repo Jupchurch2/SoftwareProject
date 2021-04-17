@@ -1,6 +1,6 @@
 from Plane import Seat
 from Passenger import Passenger
-
+from random import *
 
 class AppModel:
 
@@ -13,11 +13,11 @@ class AppModel:
     def generateReport(self):
         randPassengers = []
         stopIter = 0
-        for i in rand(range(0, len(self.passengerList))):
-            randPassengers.append(self.passengerList[i])
+        while stopIter != 10:
+            randPassenger = self.passengerList[randrange(0, len(self.passengerList))]
+            randPassengers.append(randPassenger)
+            self.passengerList.remove(randPassenger)
             stopIter += 1
-            if stopIter == 10:
-                break
         return randPassengers
 
     def seatBusiness(self, passenger: Passenger):
@@ -223,7 +223,7 @@ class AppModel:
                     self.passengerList.append(passTwo)
                     self.passengerList.append(passThree)
                     self.passengerList.append(passFour)
-                    return i, i + 1, i + 2, i - 6
+                    return i - 6, i, i + 1, i + 2
                 elif self.seatList[i - 1].isAvailable():
                     self.seatList[i].addPassenger(passOne)
                     self.seatList[i + 1].addPassenger(passTwo)
@@ -234,7 +234,7 @@ class AppModel:
                     self.passengerList.append(passTwo)
                     self.passengerList.append(passThree)
                     self.passengerList.append(passFour)
-                    return i, i + 1, i + 2, i - 1
+                    return i - 1, i, i + 1, i + 2
                 elif i != 117 and self.seatList[i + 6].isAvailable():
                     self.seatList[i].addPassenger(passOne)
                     self.seatList[i + 1].addPassenger(passTwo)
