@@ -83,9 +83,6 @@ reportScreen.config(bg='light blue')
 usernameBox = Entry(mP, width=30, show='*')
 usernameBox.place(relx=.4, rely=.3)
 
-categoryBox = OptionMenu(categoryScreen, clicked, *categories,)
-categoryBox.place(relx=.4, rely=.3)
-
 # -----------------------------------------------------------------------------------------------------------------
 nameLabel = "Enter Your Name:"
 prefLabel = 'Enter your seat preference: \n (or enter "0" if not applicable)'
@@ -160,6 +157,8 @@ def bookBusinessTicket():
         first, last = fullName.split(' ')
         preference = int(businessPref.get())
         businessTicket.withdraw()
+        businessName.delete(0, END)
+        businessPref.delete(0, END)
         newPassenger = Passenger(first, last, 'Business', preference)
 
         businessSeatNumber = app.seatBusiness(newPassenger)
@@ -191,6 +190,11 @@ def bookTouristTicket():
             messagebox.showwarning(title='Seat', message='You must choose two different seats.')
         elif (pref1 > 12 and pref2 > 12) or (pref1 == 0 and pref2 == 0):
             touristTicket.withdraw()
+            touristName1.delete(0, END)
+            touristPref1.delete(0, END)
+            touristName2.delete(0, END)
+            touristPref2.delete(0, END)
+
             passenger1 = Passenger(first1, last1, 'Tourist', pref1)
             passenger2 = Passenger(first2, last2, 'Tourist', pref2)
 
@@ -230,6 +234,12 @@ def bookFamilyTicket():
         first2, last2 = fullname2.split(' ')
         first3, last3 = fullname3 .split(' ')
         familyTicket.withdraw()
+        familyName1.delete(0, END)
+        familyName2.delete(0, END)
+        familyName3.delete(0, END)
+        familyName4.delete(0, END)
+        familyName5.delete(0, END)
+
         passenger1 = Passenger(first1, last2, 'Family', 0)
         passenger2 = Passenger(first2, last2, 'Family', 0)
         passenger3 = Passenger(first3, last3, 'Family', 0)
@@ -450,8 +460,11 @@ ticketButton.place(x=5, y=770)
 
 editSeat = Button(passengerWindow, text='Change Seat', bg='blue', fg='white', command=lambda: changeSeat()).place(x=650, y=770)
 
+categoryBox = OptionMenu(categoryScreen, clicked, *categories,)
+categoryBox.place(x=350, y=300)
+
 chooseCat = Button(categoryScreen, text='Select Category', bg='blue', fg='white', command=lambda: chooseCategory())
-chooseCat.place(x=400, y=400)
+chooseCat.place(x=350, y=350)
 # -----------------------------------------------------------------------------------------------------------------
 
 
