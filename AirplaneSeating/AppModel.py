@@ -13,20 +13,20 @@ class AppModel:
     def seatBusiness(self, passenger: Passenger):
         passengerPref = passenger.getPref() - 1
         if self.seatList[passengerPref].isAvailable() and passengerPref != -1:
-            self.seatList[passengerPref].passenger = passenger
-            self.seatList[passengerPref].isOpen = False
+            self.seatList[passengerPref].addPassenger(passenger)
+            passenger.rating = 0
             return passengerPref
         else:
             for i in range(0, 12):
                 if self.seatList[i].isAvailable():
-                    self.seatList[i].passenger = passenger
-                    self.seatList[i].isOpen = False
+                    self.seatList[i].addPassenger(passenger)
+                    passenger.rating = 0
                     return i
                 elif i == 11:
                     for j in range(12, 120):
                         if self.seatList[j].isAvailable():
-                            self.seatList[j].passenger = passenger
-                            self.seatList[j].isOpen = False
+                            self.seatList[j].addPassenger(passenger)
+                            passenger.rating = -5
                             return j
                         elif j == 120:
                             return -1
@@ -56,15 +56,18 @@ class AppModel:
             self.seatList[passengerPref].isOpen = False
             self.seatList[prefTwo].passenger = passengerTwo
             self.seatList[prefTwo].isOpen = False
+            passenger.rating = 10
+            passengerTwo.rating = 10
             return passengerPref, prefTwo
 
         for i in range(12, 120, 6):
             if self.seatList[i].isAvailable() and self.seatList[i + 1].isAvailable():
                 self.seatList[i].passenger = passenger
                 self.seatList[i + 1].passenger = passengerTwo
-
                 self.seatList[i].isOpen = False
                 self.seatList[i + 1].isOpen = False
+                passenger.rating = 15
+                passengerTwo.rating = 15
                 return i, i + 1
 
         for j in range(16, 120, 6):
@@ -74,6 +77,8 @@ class AppModel:
 
                self.seatList[j].isOpen = False
                self.seatList[j + 1].isOpen = False
+               passenger.rating = 15
+               passengerTwo.rating = 15
                return j, j + 1
 
         for i in range(12, 120):
@@ -82,6 +87,8 @@ class AppModel:
                 self.seatList[i + 1].passenger = passengerTwo
                 self.seatList[i].isOpen = False
                 self.seatList[i+1].isOpen = False
+                passenger.rating = 10
+                passengerTwo.rating = 10
                 return i, i + 1
 
         self.seatList[availableSeatOne].passenger = passenger
@@ -114,20 +121,29 @@ class AppModel:
                 self.seatList[i].passenger = passOne
                 self.seatList[i - 1].passenger = passTwo
                 self.seatList[i - 2].passenger = passThree
+                self.seatList[i].isOpen = False
+                self.seatList[i-1].isOpen = False
+                self.seatList[i-2].isOpen = False
+                passOne.rating, passTwo.rating, passThree.rating = 15, 15, 15
                 return i, i - 1, i - 2
             else:
                 continue
         for i in range(15, 120, 6):
-            if self.seatList[i].isAvailable() and self.seatList[i + 1].isAvailable and self.seatList[i + 2].isAvailable():
+            if self.seatList[i].isAvailable() and self.seatList[i+1].isAvailable and self.seatList[i+2].isAvailable():
                 self.seatList[i].passenger = passOne
-                self.seatList[i + 1].passenger = passTwo
-                self.seatList[i + 2].passenger = passThree
-                return i, i + 1, i + 2
+                self.seatList[i+1].passenger = passTwo
+                self.seatList[i+2].passenger = passThree
+                self.seatList[i].isOpen = False
+                self.seatList[i+1].isOpen = False
+                self.seatList[i+2].isOpen = False
+                passOne.rating, passTwo.rating, passThree.rating = 15, 15, 15
+                return i, i+1, i+2
             else:
                 continue
         self.seatList[availableSeatOne].passenger = passOne
         self.seatList[availableSeatTwo].passenger = passTwo
         self.seatList[availableSeatThree].passenger = passThree
+        passOne.rating, passTwo.rating, passThree.rating = -10, -10, -10
         return availableSeatOne, availableSeatTwo, availableSeatThree
 
     def familyFour(self, passOne: Passenger, passTwo: Passenger, passThree: Passenger, passFour: Passenger):
@@ -149,7 +165,6 @@ class AppModel:
                     availableSeatFour = i
                     break
             elif i == 119:
-                raiseError("Four passengers can not be seated due to spatial limitations.")
                 return -1, -1, -1, -1
         for i in range(14, 120, 6):
             if self.seatList[i].isAvailable() and self.seatList[i - 1].isAvailable and self.seatList[
@@ -159,12 +174,22 @@ class AppModel:
                     self.seatList[i - 1].passenger = passTwo
                     self.seatList[i - 2].passenger = passThree
                     self.seatList[i - 6].passenger = passFour
+                    self.seatList[i].isOpen = False
+                    self.seatList[i - 1].isOpen = False
+                    self.seatList[i - 2].isOpen = False
+                    self.seatList[i - 6].isOpen = False
+                    passOne.rating, passTwo.rating, passThree.rating, passFour.rating = 15, 15, 15, 15
                     return i, i - 1, i - 2, i - 6
                 elif self.seatList[i + 1].isAvailable():
                     self.seatList[i].passenger = passOne
                     self.seatList[i - 1].passenger = passTwo
                     self.seatList[i - 2].passenger = passThree
                     self.seatList[i + 1].passenger = passFour
+                    self.seatList[i].isOpen = False
+                    self.seatList[i-1].isOpen = False
+                    self.seatList[i-2].isOpen = False
+                    self.seatList[i+1].isOpen = False
+                    passOne.rating, passTwo.rating, passThree.rating, passFour.rating = 15, 15, 15, 15
                     return i, i - 1, i - 2, i + 1
                 elif i != 116 and self.seatList[i + 6].isAvailable():
                     self.seatList[i].passenger = passOne
