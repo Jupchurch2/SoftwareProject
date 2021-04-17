@@ -15,18 +15,21 @@ class AppModel:
         if self.seatList[passengerPref].isAvailable() and passengerPref != -1:
             self.seatList[passengerPref].addPassenger(passenger)
             passenger.rating = 0
+            self.passengerList.append(passenger)
             return passengerPref
         else:
             for i in range(0, 12):
                 if self.seatList[i].isAvailable():
                     self.seatList[i].addPassenger(passenger)
                     passenger.rating = 0
+                    self.passengerList.append(passenger)
                     return i
                 elif i == 11:
                     for j in range(12, 120):
                         if self.seatList[j].isAvailable():
                             self.seatList[j].addPassenger(passenger)
                             passenger.rating = -5
+                            self.passengerList.append(passenger)
                             return j
                         elif j == 120:
                             return -1
@@ -55,6 +58,8 @@ class AppModel:
             self.seatList[prefTwo].addPassenger(passengerTwo)
             passenger.rating = 10
             passengerTwo.rating = 10
+            self.passengerList.append(passenger)
+            self.passengerList.append(passengerTwo)
             return passengerPref, prefTwo
 
         for i in range(12, 120, 6):
@@ -63,6 +68,8 @@ class AppModel:
                 self.seatList[i + 1].addPassenger(passengerTwo)
                 passenger.rating = 15
                 passengerTwo.rating = 15
+                self.passengerList.append(passenger)
+                self.passengerList.append(passengerTwo)
                 return i, i + 1
 
         for j in range(16, 120, 6):
@@ -71,6 +78,8 @@ class AppModel:
                self.seatList[j + 1].addPassenger(passengerTwo)
                passenger.rating = 15
                passengerTwo.rating = 15
+               self.passengerList.append(passenger)
+               self.passengerList.append(passengerTwo)
                return j, j + 1
 
         for i in range(12, 120):
@@ -79,10 +88,15 @@ class AppModel:
                 self.seatList[i + 1].addPassenger(passengerTwo)
                 passenger.rating = 10
                 passengerTwo.rating = 10
+                self.passengerList.append(passenger)
+                self.passengerList.append(passengerTwo)
                 return i, i + 1
 
         self.seatList[availableSeatOne].addPassenger(passenger)
         self.seatList[availableSeatTwo].addPassenger(passengerTwo)
+        self.passengerList.append(passenger)
+        self.passengerList.append(passengerTwo)
+        passenger.rating, passengerTwo.rating = -10, -10
         return availableSeatOne, availableSeatTwo
 
     # Needs to set open seats to false for families of 3,4 and 5
@@ -109,6 +123,9 @@ class AppModel:
                 self.seatList[i - 1].addPassenger(passTwo)
                 self.seatList[i - 2].addPassenger(passThree)
                 passOne.rating, passTwo.rating, passThree.rating = 15, 15, 15
+                self.passengerList.append(passOne)
+                self.passengerList.append(passTwo)
+                self.passengerList.append(passThree)
                 return i, i - 1, i - 2
         for i in range(15, 120, 6):
             if self.seatList[i].isAvailable() and self.seatList[i+1].isAvailable and self.seatList[i+2].isAvailable():
@@ -116,11 +133,17 @@ class AppModel:
                 self.seatList[i+1].addPassenger(passTwo)
                 self.seatList[i+2].addPassenger(passThree)
                 passOne.rating, passTwo.rating, passThree.rating = 15, 15, 15
+                self.passengerList.append(passOne)
+                self.passengerList.append(passTwo)
+                self.passengerList.append(passThree)
                 return i, i+1, i+2
         self.seatList[availableSeatOne].addPassenger(passOne)
         self.seatList[availableSeatTwo].addPassenger(passTwo)
         self.seatList[availableSeatThree].addPassenger(passThree)
         passOne.rating, passTwo.rating, passThree.rating = -10, -10, -10
+        self.passengerList.append(passOne)
+        self.passengerList.append(passTwo)
+        self.passengerList.append(passThree)
         return availableSeatOne, availableSeatTwo, availableSeatThree
 
     def familyFour(self, passOne: Passenger, passTwo: Passenger, passThree: Passenger, passFour: Passenger):
@@ -151,6 +174,10 @@ class AppModel:
                     self.seatList[i - 2].addPassenger(passThree)
                     self.seatList[i - 6].addPassenger(passFour)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating = 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
                     return i, i - 1, i - 2, i - 6
                 elif self.seatList[i + 1].isAvailable():
                     self.seatList[i].addPassenger(passOne)
@@ -158,6 +185,10 @@ class AppModel:
                     self.seatList[i - 2].addPassenger(passThree)
                     self.seatList[i + 1].addPassenger(passFour)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating = 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
                     return i, i - 1, i - 2, i + 1
                 elif i != 116 and self.seatList[i + 6].isAvailable():
                     self.seatList[i].addPassenger(passOne)
@@ -165,6 +196,10 @@ class AppModel:
                     self.seatList[i - 2].addPassenger(passThree)
                     self.seatList[i + 6].addPassenger(passFour)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating = 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
                     return i, i - 1, i - 2, i + 6
         for i in range(15, 120, 6):
             if self.seatList[i].isAvailable() and self.seatList[i + 1].isAvailable and self.seatList[i + 2].isAvailable():
@@ -174,6 +209,10 @@ class AppModel:
                     self.seatList[i + 2].addPassenger(passThree)
                     self.seatList[i - 6].addPassenger(passFour)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating = 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
                     return i, i + 1, i + 2, i - 6
                 elif self.seatList[i - 1].isAvailable():
                     self.seatList[i].addPassenger(passOne)
@@ -181,6 +220,10 @@ class AppModel:
                     self.seatList[i + 2].addPassenger(passThree)
                     self.seatList[i - 1].addPassenger(passFour)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating = 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
                     return i, i + 1, i + 2, i - 1
                 elif i != 117 and self.seatList[i + 6].isAvailable():
                     self.seatList[i].addPassenger(passOne)
@@ -188,12 +231,20 @@ class AppModel:
                     self.seatList[i + 2].addPassenger(passThree)
                     self.seatList[i + 6].addPassenger(passFour)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating = 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
                     return i, i + 1, i + 2, i + 6
         self.seatList[availableSeatOne].addPassenger(passOne)
         self.seatList[availableSeatTwo].addPassenger(passTwo)
         self.seatList[availableSeatThree].addPassenger(passThree)
         self.seatList[availableSeatFour].addPassenger(passFour)
         passOne.rating, passTwo.rating, passThree.rating, passFour.rating = -10, -10, -10, -10
+        self.passengerList.append(passOne)
+        self.passengerList.append(passTwo)
+        self.passengerList.append(passThree)
+        self.passengerList.append(passFour)
         return availableSeatOne, availableSeatTwo, availableSeatThree, availableSeatFour
 
     def familyFive(self, passOne: Passenger, passTwo: Passenger, passThree: Passenger, passFour: Passenger,passFive: Passenger):
@@ -228,6 +279,11 @@ class AppModel:
                     self.seatList[i + 1].addPassenger(passFour)
                     self.seatList[i + 2].addPassenger(passFive)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating, passFive.rating = 15, 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
+                    self.passengerList.append(passFive)
                     return i - 2, i - 1, i, i + 1, i + 2
                 elif self.seatList[i + 3].isAvailable():
                     self.seatList[i + 3].addPassenger(passOne)
@@ -236,6 +292,11 @@ class AppModel:
                     self.seatList[i + 1].addPassenger(passFour)
                     self.seatList[i + 2].addPassenger(passFive)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating, passFive.rating = 15, 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
+                    self.passengerList.append(passFive)
                     return i + 3, i - 1, i, i + 1, i + 2
         for i in range(14, 120, 6):
             if self.seatList[i - 2].isAvailable() and self.seatList[i - 1].isAvailable() and self.seatList[i].isAvailable():
@@ -246,6 +307,11 @@ class AppModel:
                     self.seatList[i - 6].addPassenger(passFour)
                     self.seatList[i - 7].addPassenger(passFive)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating, passFive.rating = 15, 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
+                    self.passengerList.append(passFive)
                     return i - 2, i - 1, i, i - 6, i - 7
                 elif i != 116 and self.seatList[i + 5].isAvailable() and self.seatList[i + 6].isAvailable():
                     self.seatList[i - 2].addPassenger(passOne)
@@ -254,6 +320,11 @@ class AppModel:
                     self.seatList[i + 5].addPassenger(passFour)
                     self.seatList[i + 6].addPassenger(passFive)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating, passFive.rating = 15, 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
+                    self.passengerList.append(passFive)
                     return i - 2, i - 1, i, i + 5, i + 6
         for i in range(15, 120, 6):
             if self.seatList[i + 2].isAvailable() and self.seatList[i + 1].isAvailable() and self.seatList[i].isAvailable():
@@ -264,6 +335,11 @@ class AppModel:
                     self.seatList[i + 1].addPassenger(passFour)
                     self.seatList[i + 2].addPassenger(passFive)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating, passFive.rating = 15, 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
+                    self.passengerList.append(passFive)
                     return i - 6, i - 5, i, i + 1, i + 2
                 elif i != 117 and self.seatList[i + 6].isAvailable() and self.seatList[i + 7].isAvailable():
                     self.seatList[i].addPassenger(passOne)
@@ -272,6 +348,11 @@ class AppModel:
                     self.seatList[i + 6].addPassenger(passFour)
                     self.seatList[i + 7].addPassenger(passFive)
                     passOne.rating, passTwo.rating, passThree.rating, passFour.rating, passFive.rating = 15, 15, 15, 15, 15
+                    self.passengerList.append(passOne)
+                    self.passengerList.append(passTwo)
+                    self.passengerList.append(passThree)
+                    self.passengerList.append(passFour)
+                    self.passengerList.append(passFive)
                     return i, i + 1, i + 2, i + 6, i + 7
         self.seatList[availableSeatOne].addPassenger(passOne)
         self.seatList[availableSeatTwo].addPassenger(passTwo)
@@ -279,4 +360,9 @@ class AppModel:
         self.seatList[availableSeatFour].addPassenger(passFour)
         self.seatList[availableSeatFive].addPassenger(passFive)
         passOne.rating, passTwo.rating, passThree.rating, passFour.rating, passFive.rating = -10, -10, -10, -10, -10
+        self.passengerList.append(passOne)
+        self.passengerList.append(passTwo)
+        self.passengerList.append(passThree)
+        self.passengerList.append(passFour)
+        self.passengerList.append(passFive)
         return availableSeatOne, availableSeatTwo, availableSeatThree, availableSeatFour, availableSeatFive
