@@ -151,6 +151,8 @@ familyNameLabel5.place(relx=.25, rely=.75)
 
 # Defining button functions
 def bookBusinessTicket():
+    passengerList = []
+    seatList = []
     fullName = businessName.get()
     if len(fullName) > 1:
         first, last = fullName.split(' ')
@@ -159,15 +161,23 @@ def bookBusinessTicket():
         newPassenger = Passenger(first, last, 'Business', preference)
 
         businessSeatNumber = app.seatBusiness(newPassenger)
+        if businessSeatNumber == -1:
+            messagebox.showwarning(title='Flight Overbooked', message='Sorry, this flight is currently full.')
+        else:
+            passengerList.append(newPassenger)
+            seatList.append(businessSeatNumber + 1)
+            generateTickets(passengerList, seatList)
 
-        passengerViewButtons[businessSeatNumber].config(bg='red')
-        managerViewButtons[businessSeatNumber].config(bg='red')
-        messagebox.showinfo(title='Seat', message=f'Your seat is {businessSeatNumber + 1}')
+            passengerViewButtons[businessSeatNumber].config(bg='red')
+            managerViewButtons[businessSeatNumber].config(bg='red')
+            messagebox.showinfo(title='Seat', message=f'Your seat is {businessSeatNumber + 1}')
     else:
         messagebox.showwarning(title='Your Name', message='Please enter your first and last name.')
 
 
 def bookTouristTicket():
+    passengerList = []
+    seatList = []
     fullName1 = touristName1.get()
     fullName2 = touristName2.get()
     if len(fullName1) > 1 and len(fullName2) > 1:
@@ -183,11 +193,19 @@ def bookTouristTicket():
             passenger2 = Passenger(first2, last2, 'Tourist', pref2)
 
             touristSeat1, touristSeat2 = app.seatingAlgorithmTourist(passenger1, passenger2)
+            if touristSeat1 == -1 or touristSeat2 == -1:
+                messagebox.showwarning(title='Flight Overbooked', message='Sorry, this flight is currently full.')
+            else:
+                passengerList.append(passenger1)
+                passengerList.append(passenger2)
+                seatList.append(touristSeat1 + 1)
+                seatList.append(touristSeat2 + 1)
+                generateTickets(passengerList, seatList)
 
-            passengerViewButtons[touristSeat1].config(bg='red')
-            passengerViewButtons[touristSeat2].config(bg='red')
-            managerViewButtons[touristSeat1].config(bg='red')
-            managerViewButtons[touristSeat2].config(bg='red')
+                passengerViewButtons[touristSeat1].config(bg='red')
+                passengerViewButtons[touristSeat2].config(bg='red')
+                managerViewButtons[touristSeat1].config(bg='red')
+                managerViewButtons[touristSeat2].config(bg='red')
 
             messagebox.showinfo(title='Seats', message=f'Your seats are {touristSeat1 + 1} & {touristSeat2 + 1}')
         else:
@@ -204,6 +222,8 @@ def bookFamilyTicket():
     fullname5 = familyName5.get()
 
     if len(fullname1) > 1 and len(fullname2) > 1 and len(fullname3) > 1:
+        passengerList = []
+        seatList = []
         first1, last1 = fullname1.split(' ')
         first2, last2 = fullname2.split(' ')
         first3, last3 = fullname3 .split(' ')
@@ -216,11 +236,41 @@ def bookFamilyTicket():
             passenger4 = Passenger(first4, last4, 'Family', 0)
             if len(fullname5) > 1:
                 first5, last5 = fullname5.split(' ')
-                passsenger5 = Passenger(first5, last5, 'Family', 0)
+                passenger5 = Passenger(first5, last5, 'Family', 0)
+
+                seat5, seat4, seat3, seat2, seat1 = app.familyFive(passenger1, passenger2, passenger3, passenger4, passenger5)
+                passengerList.append(passenger1)
+                passengerList.append(passenger2)
+                passengerList.append(passenger3)
+                passengerList.append(passenger4)
+                passengerList.append(passenger5)
+                seatList.append(seat1)
+                seatList.append(seat2)
+                seatList.append(seat3)
+                seatList.append(seat4)
+                seatList.append(seat5)
+                generateTickets(passengerList, seatList)
             else:
-                pass
+                seat4, seat3, seat2, seat1 = app.familyFour(passenger1, passenger2, passenger3, passenger4)
+                passengerList.append(passenger1)
+                passengerList.append(passenger2)
+                passengerList.append(passenger3)
+                passengerList.append(passenger4)
+                seatList.append(seat1)
+                seatList.append(seat2)
+                seatList.append(seat3)
+                seatList.append(seat4)
+                generateTickets(passengerList, seatList)
         else:
-            seat3,seat2,seat1 = app.familyThree(passenger1, passenger2, passenger3)
+            seat3, seat2, seat1 = app.familyThree(passenger1, passenger2, passenger3)
+
+            passengerList.append(passenger1)
+            passengerList.append(passenger2)
+            passengerList.append(passenger3)
+            seatList.append(seat1)
+            seatList.append(seat2)
+            seatList.append(seat3)
+            generateTickets(passengerList, seatList)
 
             passengerViewButtons[seat1].config(bg='red')
             passengerViewButtons[seat2].config(bg='red')
@@ -244,6 +294,11 @@ def chooseCategory():
         familyTicket.deiconify()
     categoryScreen.withdraw()
 
+def generateTickets(passengers: list, seats: list):
+    for i in range(len(passengers)):
+        ticket = open(f'_Tickets/ Seat {seats[i]:03}, {passengers[i].getLast()}', "w")
+        ticket.write(f"Seat No. {seats[i]} \nName: {passengers[i]} \nFlight Date: 19 Apr. 2021 \nFlight: 330")
+        ticket.close()
 
 def quitApp():
     login.destroy()
