@@ -10,6 +10,16 @@ class AppModel:
             self.seatList.append(Seat(i + 1, True))
         self.passengerList = []
 
+    def generateReport(self):
+        randPassengers = []
+        stopIter = 0
+        for i in rand(range(0, len(self.passengerList))):
+            randPassengers.append(self.passengerList[i])
+            stopIter += 1
+            if stopIter == 10:
+                break
+        return randPassengers
+
     def seatBusiness(self, passenger: Passenger):
         passengerPref = passenger.getPref() - 1
         if self.seatList[passengerPref].isAvailable() and passengerPref != -1:
