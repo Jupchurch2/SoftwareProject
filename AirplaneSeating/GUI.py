@@ -1,9 +1,11 @@
 # Import all libraries to make the application functional
 from tkinter import *
 from tkinter import messagebox
+from tkinter import simpledialog
 from AppModel import *
 from Plane import *
 from Passenger import *
+import os
 
 # -----------------------------------------------------------------------------------------------------------------
 
@@ -344,6 +346,36 @@ def quitApp():
     sys.exit()
 
 
+def changeSeat():
+    name = simpledialog.askstring('Name', "What is the name printed on your ticket?", parent=passengerWindow)
+    if name is not None:
+        first, last = name.split(" ")
+        seatNumber = int(simpledialog.askfloat('Seat', "Which seat are you currently assigned to?\n(Please enter in a numeric value)", parent=passengerWindow))
+        if seatNumber is not None:
+            requestedSeat = int(simpledialog.askfloat('New Seat', "Which seat would you liked to be moved to?\n(Please enter a numeric value)", parent=passengerWindow))
+            if requestedSeat is not None:
+                if app.seatList[requestedSeat - 1].isOpen:
+                    if app.seatList[seatNumber-1].passenger.getFirst() == first and app.seatList[seatNumber-1].passenger.getLast() == last:
+                        app.seatList[seatNumber - 1].isOpen = True
+                        app.seatList[seatNumber - 1].passenger = None
+                        passengerViewButtons[seatNumber - 1].config(bg='green')
+                        managerViewButtons[seatNumber - 1].config(bg='green')
+                        if os.path.exists(f"_Tickets/ Seat {seatNumber:03}, {last}"):
+                            os.remove(f"_Tickets/ Seat {seatNumber:03}, {last}")
+
+                        editPassenger = Passenger(first, last, "None", 0)
+                        app.seatList[requestedSeat - 1].addPassenger(editPassenger)
+                        passengerViewButtons[requestedSeat - 1].config(bg='red')
+                        managerViewButtons[requestedSeat - 1].config(bg='red')
+                        generateTickets([editPassenger], [requestedSeat])
+                        messagebox.showinfo(title='Update', message='Your seat has been updated!')
+                    else:
+                        messagebox.showwarning(title='Update',
+                                               message='The name does not match who is currently seated.')
+                else:
+                    messagebox.showwarning(title='Update', message='That seat is unavailable.')
+
+
 def loginButton():
     if usernameBox.get() == managerPhrase:
         managerWindow.deiconify()
@@ -415,6 +447,8 @@ bookFamily = Button(familyTicket, text='Book', bg='blue', fg='white', command=la
 
 ticketButton = Button(passengerWindow, text='Book a seat', bg='blue', fg='white', command=lambda: bookSeat())
 ticketButton.place(x=5, y=770)
+
+editSeat = Button(passengerWindow, text='Change Seat', bg='blue', fg='white', command=lambda: changeSeat()).place(x=650, y=770)
 
 chooseCat = Button(categoryScreen, text='Select Category', bg='blue', fg='white', command=lambda: chooseCategory())
 chooseCat.place(x=400, y=400)
