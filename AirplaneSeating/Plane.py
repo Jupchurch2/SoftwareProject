@@ -17,6 +17,10 @@ class Seat:
     def addPassenger(self, Passenger):
         self.passenger = Passenger
         self.isOpen = False
+
+    def removePassenger(self):
+        self.passenger = None
+        self.isOpen = True
         
     def checkPassengerInSeat(self):
         if self.isOpen:
