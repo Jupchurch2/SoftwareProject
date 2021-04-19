@@ -297,7 +297,7 @@ def bookFamilyTicket():
         familyName4.delete(0, END)
         familyName5.delete(0, END)
         # Creates three passenger objects for the first three entry boxes
-        passenger1 = Passenger(first1, last2, 'Family', 0)
+        passenger1 = Passenger(first1, last1, 'Family', 0)
         passenger2 = Passenger(first2, last2, 'Family', 0)
         passenger3 = Passenger(first3, last3, 'Family', 0)
         # Checks to see if a fourth family member is added
@@ -322,11 +322,11 @@ def bookFamilyTicket():
                     passengerList.append(passenger3)
                     passengerList.append(passenger4)
                     passengerList.append(passenger5)
-                    seatList.append(seat1)
-                    seatList.append(seat2)
-                    seatList.append(seat3)
-                    seatList.append(seat4)
-                    seatList.append(seat5)
+                    seatList.append(seat1 + 1)
+                    seatList.append(seat2 + 1)
+                    seatList.append(seat3 + 1)
+                    seatList.append(seat4 + 1)
+                    seatList.append(seat5 + 1)
                     # Calls method for generating the tickets
                     generateTickets(passengerList, seatList)
 
@@ -356,10 +356,10 @@ def bookFamilyTicket():
                     passengerList.append(passenger2)
                     passengerList.append(passenger3)
                     passengerList.append(passenger4)
-                    seatList.append(seat1)
-                    seatList.append(seat2)
-                    seatList.append(seat3)
-                    seatList.append(seat4)
+                    seatList.append(seat1 + 1)
+                    seatList.append(seat2 + 1)
+                    seatList.append(seat3 + 1)
+                    seatList.append(seat4 + 1)
                     # Calls method for generating tickets
                     generateTickets(passengerList, seatList)
                     # Updates the plane views to show the newly booked seats
@@ -385,9 +385,9 @@ def bookFamilyTicket():
                 passengerList.append(passenger1)
                 passengerList.append(passenger2)
                 passengerList.append(passenger3)
-                seatList.append(seat1)
-                seatList.append(seat2)
-                seatList.append(seat3)
+                seatList.append(seat1 + 1)
+                seatList.append(seat2 + 1)
+                seatList.append(seat3 + 1)
                 # Calls method for generating tickets
                 generateTickets(passengerList, seatList)
                 # Updates plane views to show newly booked seats
