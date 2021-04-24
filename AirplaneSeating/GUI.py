@@ -16,6 +16,8 @@ managerWindow = Tk()
 
 # All top levels are used for the multiple window structure of the app
 login = Toplevel()
+passengerLoginScreen = Toplevel()
+createAccount = Toplevel()
 passengerWindow = Toplevel()
 mP = Toplevel()
 reportScreen = Toplevel()
@@ -47,6 +49,9 @@ clicked.set(categories[0])
 # Create lists for all buttons to adjust when using the app
 managerViewButtons = []
 passengerViewButtons = []
+
+# Create dictionary for storing user's data
+userData = {}
 
 # Creating more static variables for the seating method
 seatX = 330
@@ -86,6 +91,12 @@ reportScreen.geometry(window)
 reportScreen.title('Passenger Report')
 reportScreen.config(bg='light blue')
 
+passengerLoginScreen.geometry(window)
+passengerLoginScreen.title('Please Log in')
+
+createAccount.geometry(window)
+createAccount.title('Create your account!')
+
 # -----------------------------------------------------------------------------------------------------------------
 
 # Creating an entry box for the manager login screen that hides the phrase entered
@@ -108,6 +119,27 @@ businessNameLabel = Label(businessTicket, text=nameLabel)
 businessNameLabel.place(relx=.25, rely=.25)
 businessPrefLabel = Label(businessTicket, text=prefLabel)
 businessPrefLabel.place(relx=.2, rely=.28)
+# -----------------------------------------------------------------------------------------------------------------
+
+passengerUsername = Entry(passengerLoginScreen, width=30)
+passengerUsername.place(relx=.37, rely=.25)
+passengerPassword = Entry(passengerLoginScreen, width=30)
+passengerPassword.place(relx=.37, rely=.35)
+
+usernameLabel = Label(passengerLoginScreen, text='Username:')
+usernameLabel.place(relx=.45, rely=.22)
+passwordLabel = Label(passengerLoginScreen, text='Password:')
+passwordLabel.place(relx=.45, rely=.32)
+
+newUsername = Entry(createAccount, width=30)
+newUsername.place(relx=.37, rely=.25)
+newPassword = Entry(createAccount, width=30)
+newPassword.place(relx=.37, rely=.35)
+
+newUsernameLabel = Label(createAccount, text='Username:')
+newUsernameLabel.place(relx=.45, rely=.22)
+newPasswordLabel = Label(createAccount, text='Password:')
+newPasswordLabel.place(relx=.45, rely=.32)
 # -----------------------------------------------------------------------------------------------------------------
 
 # Entry boxes for the name and preference in the tourist category window
@@ -551,6 +583,17 @@ def loginButton():
     usernameBox.delete(0, END)
 
 
+def openNewAccountScreen():
+    """
+    Method to open the "Create New Account" window
+    :return: None
+    """
+    passengerLoginScreen.withdraw()
+    createAccount.deiconify()
+    passengerUsername.delete(0, END)
+    passengerPassword.delete(0, END)
+
+
 def bookSeat():
     """
     Method to open the category window
@@ -565,7 +608,46 @@ def passengerLogin():
     :return: None
     """
     login.withdraw()
-    passengerWindow.deiconify()
+    passengerLoginScreen.deiconify()
+
+
+def currentUserLogin():
+    """
+    Method to log in a current user
+    :return: None
+    """
+    username = passengerUsername.get()
+    password = passengerPassword.get()
+    if username in userData:
+        if userData[username] == password:
+            passengerLoginScreen.withdraw()
+            passengerWindow.deiconify()
+            passengerUsername.delete(0, END)
+            passengerPassword.delete(0, END)
+        else:
+            messagebox.showwarning(title='Error', message='Your password is incorrect.')
+    else:
+        messagebox.showwarning(title='Error', message='Your username does not exist.')
+
+
+def createNewAccount():
+    """
+    Method for user to create a new account.
+    :return: None
+    """
+    username = newUsername.get()
+    password = newPassword.get()
+    if username in userData:
+        messagebox.showwarning(title='Error', message='This username already exists')
+    else:
+        if len(username) == 0 or len(password) == 0:
+            messagebox.showwarning(title='Enter your credentials', message='Please fill in a username AND password.')
+        else:
+            userData[username] = password
+            createAccount.withdraw()
+            passengerLoginScreen.deiconify()
+            newUsername.delete(0, END)
+            newPassword.delete(0, END)
 
 
 def managerLogin():
@@ -665,6 +747,11 @@ logoutButton = Button(managerWindow, text='Log Out', command=lambda: logout()).p
 
 logoutButton2 = Button(passengerWindow, text='Exit', width=6, fg='red', command=lambda: logout()).place(x=740, y=770)
 
+userLoginButton = Button(passengerLoginScreen, text='Login', width=6, command=lambda: currentUserLogin()).place(relx=.45, rely=.4)
+
+createNewAccountButton = Button(passengerLoginScreen, text='Create New Account', command=lambda: openNewAccountScreen()).place(relx=.41, rely=.45)
+
+createAccountButton = Button(createAccount, text='Confirm Account Creation', command=lambda: createNewAccount()).place(relx=.39, rely=.4)
 # -----------------------------------------------------------------------------------------------------------------
 
 # Withdrawing all windows we do not want to see immediately
@@ -676,6 +763,8 @@ categoryScreen.withdraw()
 businessTicket.withdraw()
 touristTicket.withdraw()
 familyTicket.withdraw()
+passengerLoginScreen.withdraw()
+createAccount.withdraw()
 
 # Creating an event loop
 managerWindow.mainloop()
