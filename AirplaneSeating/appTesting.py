@@ -45,16 +45,28 @@ def createFamily(size: int):
         e.category = "Family"
         return a, b, c, d, e
 
-class seatingTest(unittest.TestCase):
+class SeatingTest(unittest.TestCase):
 
-    # Normal situation
+    # Empty plane; Business first passenger
     def testBusiness(self):
         a = AppModel()
-        x = createBusiness()
+        x = Passenger('a', 'b', 'Business', 0)
         b = a.seatBusiness(x)
         self.assertEqual(0, b)
 
+    # Empty plane; Tourists first passengers
+    def testTourist(self):
+        a = AppModel()
+        x, y = createTourists()
+        b = a.seatingAlgorithmTourist(x, y)
+
+        # Should be seated in first two non-business seats (returns 12, 13 as index into seat list; seat numbers are 13, 14)
+        self.assertEqual((12, 13), b)
+
+    def testFamilyThree(self):
 
 
 
+if __name__ == "__main__":
+    unittest.main()
 

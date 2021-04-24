@@ -550,7 +550,7 @@ class AppModel:
                     self.passengerList.append(passFive)
                     return i, i + 1, i + 2, i + 6, i + 7
 
-        # If no other conditions could were met, assigns the first five available seats previously found in the plane
+        # If no other conditions were met, assigns the first five available seats previously found in the plane
         self.seatList[availableSeatOne].addPassenger(passOne)
         self.seatList[availableSeatTwo].addPassenger(passTwo)
         self.seatList[availableSeatThree].addPassenger(passThree)
