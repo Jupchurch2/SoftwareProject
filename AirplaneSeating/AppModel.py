@@ -40,6 +40,13 @@ class AppModel:
         :return: Integer holding the passenger's assigned seat number
         """
 
+        for i in range(0, 120):
+            if self.seatList[i].isAvailable():
+                break
+            elif i == 119:
+                return -1
+
+
         # Variable to hold passenger's preferred seat
         passengerPref = passenger.getPref() - 1
 
@@ -75,10 +82,6 @@ class AppModel:
                             passenger.rating = -5
                             self.passengerList.append(passenger)
                             return j
-
-                        # If no seats are available, returns -1 so that the passenger is notified that the plane is full
-                        elif j == 120:
-                            return -1
 
 
 
