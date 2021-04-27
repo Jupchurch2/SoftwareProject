@@ -160,8 +160,48 @@ class SeatingTest(unittest.TestCase):
         d = a.seatingAlgorithmTourist(b, c)
         self.assertEqual((99, 102), d)
 
+    # Tests if the left side middle/window seats are all full
+    def testTouristLeftFull(self):
+        a = AppModel()
+        for seat in range(12, 120, 6):
+            a.seatList[seat].isOpen = False
+            a.seatList[seat + 1].isOpen = False
+        b, c = createTourists()
+        d = a.seatingAlgorithmTourist(b, c)
+        self.assertEqual((16, 17), d)
 
+    # Tests if tourists have to be seated outside of their requirement-defined preference
+    def testNoWinMidSeats(self):
+        a = AppModel()
+        for seat in range(12, 120, 6):
+            a.seatList[seat].isOpen = False
+            a.seatList[seat + 1].isOpen = False
+        for seat in range(16, 120, 6):
+            a.seatList[seat].isOpen = False
+            a.seatList[seat + 1].isOpen = False
+        b, c = createTourists()
+        d = a.seatingAlgorithmTourist(b, c)
+        self.assertEqual((14, 15), d)
 
+    # Tests if the plane is full that -1 is returned to be handled in GUI
+    def testTourFullPlane(self):
+        a = AppModel()
+        for seat in range(0, 120):
+            a.seatList[seat].isOpen = False
+        b, c = createTourists()
+        d = a.seatingAlgorithmTourist(b, c)
+        self.assertEqual((-1, -1), d)
+
+#-----------------------------------------------------------------------------------------------------------------------
+
+    # Tests if the left side of the plane is too full for a family of three
+    def testLeftFullFamThree(self):
+        a = AppModel()
+        b, c, d = createFamily(3)
+        for seat in range(14, 120, 6):
+            a.seatList[seat].isOpen = False
+        e = a.familyThree(b, c, d)
+        self.assertEqual((15, 16, 17), e)
 
 if __name__ == "__main__":
     unittest.main()

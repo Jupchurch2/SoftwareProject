@@ -40,12 +40,12 @@ class AppModel:
         :return: Integer holding the passenger's assigned seat number
         """
 
+        # If there is not at least 1 open seat, returns -1 to indicate full plane
         for i in range(0, 120):
             if self.seatList[i].isAvailable():
                 break
             elif i == 119:
                 return -1
-
 
         # Variable to hold passenger's preferred seat
         passengerPref = passenger.getPref() - 1
